@@ -1,0 +1,15 @@
+{
+  "name": "portfolo_2026",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo root for Portfolio 2026 frontend + backend",
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c yellow,cyan \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
