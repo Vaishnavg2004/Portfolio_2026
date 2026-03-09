@@ -10,6 +10,7 @@ type Project = {
   tags: string[];
   github: string;
   color: string;
+  image: string;
 };
 
 const fallbackProjects: Project[] = [
@@ -20,6 +21,7 @@ const fallbackProjects: Project[] = [
     tags: ["ESP32", "IoT", "Firebase", "Sensors", "Web Dashboard"],
     github: "https://github.com/users/Vaishnavg2004/projects/3",
     color: "from-primary/20 to-blue-500/10",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
   },
   {
     title: "Rocket Parachute Deployment & Avionics System",
@@ -28,6 +30,7 @@ const fallbackProjects: Project[] = [
     tags: ["Arduino", "Embedded C", "Avionics", "Telemetry", "Sensors"],
     github: "https://github.com/users/Vaishnavg2004/projects/4",
     color: "from-purple-500/20 to-primary/10",
+    image: "https://images.unsplash.com/photo-1541185934-01b600ea069c?auto=format&fit=crop&w=1400&q=80",
   },
   {
     title: "VIRTI AI - Intelligent Virtual Assistant Platform",
@@ -36,6 +39,7 @@ const fallbackProjects: Project[] = [
     tags: ["Python", "AI/ML", "Full-Stack", "NLP", "Security"],
     github: "https://github.com/users/Vaishnavg2004/projects/5",
     color: "from-blue-500/20 to-cyan-500/10",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80",
   },
 ];
 
@@ -62,6 +66,7 @@ const ProjectsSection = () => {
           tags: fallbackProjects[index]?.tags ?? ["Project"],
           github: item.githubUrl,
           color: colorPalette[index % colorPalette.length],
+          image: fallbackProjects[index]?.image ?? fallbackProjects[0].image,
         }));
 
         setProjects(mapped);
@@ -100,9 +105,17 @@ const ProjectsSection = () => {
               whileHover={{ y: -8 }}
               className="glass-card overflow-hidden group"
             >
-              <div className={`h-40 bg-gradient-to-br ${project.color} flex items-center justify-center`}>
-                <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <ExternalLink className="text-primary" size={28} />
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={`${project.title} preview`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-t ${project.color} to-transparent`} />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/55" />
+                <div className="absolute top-3 right-3 w-9 h-9 rounded-lg bg-black/35 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                  <ExternalLink className="text-white" size={16} />
                 </div>
               </div>
 
