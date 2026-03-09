@@ -12,6 +12,15 @@ import CertificatesSection from "@/components/CertificatesSection";
 import ContactSection from "@/components/ContactSection";
 import ChatbotWidget from "@/components/ChatbotWidget";
 
+const introCuts = [
+  { type: "image", title: "Vaishnav Rahul Gaikwad", className: "intro-cut-a" },
+  { type: "project", title: "IoT Cattle Monitoring", className: "intro-cut-b" },
+  { type: "project", title: "Rocket Avionics System", className: "intro-cut-c" },
+  { type: "project", title: "VIRTI AI Platform", className: "intro-cut-d" },
+  { type: "skill", title: "Embedded + Full Stack", className: "intro-cut-e" },
+  { type: "brand", title: "Portfolio 2026", className: "intro-cut-f" },
+];
+
 const Index = () => {
   const pageRef = useRef<HTMLDivElement>(null);
   const [showIntro, setShowIntro] = useState(true);
@@ -42,8 +51,43 @@ const Index = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const tabSections = new Set(["profile", "education", "experience", "skills"]);
+    const sectionIds = ["hero", "profile", "projects", "certificates", "contact"];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!visible) return;
+
+        const id = (visible.target as HTMLElement).id;
+        if (id === "profile") {
+          setActiveSection((prev) => (tabSections.has(prev) ? prev : "profile"));
+          return;
+        }
+        setActiveSection(id);
+      },
+      {
+        root: null,
+        threshold: [0.25, 0.45, 0.65],
+        rootMargin: "-30% 0px -40% 0px",
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
   const handleNavigate = (section: string) => {
-    const resolvedSection = section === "creative" ? "certificates" : section;
+    const resolvedSection = section;
     const tabSections = new Set(["profile", "education", "experience", "skills"]);
 
     if (tabSections.has(resolvedSection)) {
@@ -76,6 +120,17 @@ const Index = () => {
     <div ref={pageRef} className="min-h-screen bg-background relative overflow-x-hidden page-cursor-glow">
       {showIntro && (
         <div className={`intro-screen ${introFadeOut ? "fade-out" : ""}`}>
+          <div className="intro-montage" aria-hidden>
+            {introCuts.map((cut, index) => (
+              <div
+                key={`${cut.title}-${index}`}
+                className={`intro-cut ${cut.className} intro-cut-type-${cut.type}`}
+                style={{ animationDelay: `${index * 0.18}s` }}
+              >
+                <span>{cut.title}</span>
+              </div>
+            ))}
+          </div>
           <div className="intro-orb intro-orb-left" />
           <div className="intro-orb intro-orb-right" />
           <p className="intro-kicker">Welcome to</p>
@@ -100,6 +155,7 @@ const Index = () => {
                 onTabChange={(tab) => {
                   setActiveTab(tab);
                   setActiveSection(tab);
+                  document.getElementById("profile")?.scrollIntoView({ behavior: "smooth" });
                 }}
               />
               <AnimatePresence mode="wait">

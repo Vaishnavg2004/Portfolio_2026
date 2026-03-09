@@ -1,6 +1,31 @@
 import { motion } from "framer-motion";
 import { Code, Cpu, Database, Wrench, Layers, Paintbrush } from "lucide-react";
 
+const skillLogos: Record<string, string> = {
+  C: "https://cdn.simpleicons.org/c/A8B9CC",
+  "C++": "https://cdn.simpleicons.org/cplusplus/00599C",
+  Python: "https://cdn.simpleicons.org/python/3776AB",
+  "Java (Basics)": "https://cdn.simpleicons.org/openjdk/ED8B00",
+  PHP: "https://cdn.simpleicons.org/php/777BB4",
+  HTML5: "https://cdn.simpleicons.org/html5/E34F26",
+  CSS3: "https://cdn.simpleicons.org/css/1572B6",
+  JavaScript: "https://cdn.simpleicons.org/javascript/F7DF1E",
+  ESP32: "https://cdn.simpleicons.org/espressif/E7352C",
+  Arduino: "https://cdn.simpleicons.org/arduino/00979D",
+  MySQL: "https://cdn.simpleicons.org/mysql/4479A1",
+  MongoDB: "https://cdn.simpleicons.org/mongodb/47A248",
+  Firebase: "https://cdn.simpleicons.org/firebase/DD2C00",
+  Git: "https://cdn.simpleicons.org/git/F05032",
+  GitHub: "https://cdn.simpleicons.org/github/181717",
+  Docker: "https://cdn.simpleicons.org/docker/2496ED",
+  Postman: "https://cdn.simpleicons.org/postman/FF6C37",
+  "VS Code": "https://api.iconify.design/logos:visual-studio-code.svg",
+  "After Effects": "https://api.iconify.design/logos:adobe-after-effects.svg",
+  Figma: "https://cdn.simpleicons.org/figma/F24E1E",
+  Blender: "https://cdn.simpleicons.org/blender/F5792A",
+  CapCut: "https://api.iconify.design/mdi:movie-edit.svg?color=111111",
+};
+
 const skillCategories = [
   {
     title: "Development",
@@ -62,11 +87,28 @@ const SkillsTab = () => {
             <h4 className="font-display font-semibold text-foreground">{category.title}</h4>
           </div>
           <div className="flex flex-wrap gap-2">
-            {category.skills.map((skill) => (
-              <span key={skill} className="skill-pill text-xs">
-                {skill}
-              </span>
-            ))}
+            {category.skills.map((skill) => {
+              const logo = skillLogos[skill];
+              const fallback = skill
+                .replace(/\(.*?\)/g, "")
+                .split(/[\s-]+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((part) => part[0])
+                .join("")
+                .toUpperCase();
+
+              return (
+                <span key={skill} className="skill-pill text-xs flex items-center gap-1.5">
+                  {logo ? (
+                    <img src={logo} alt={`${skill} logo`} className="skill-pill-logo" loading="lazy" />
+                  ) : (
+                    <span className="skill-pill-fallback">{fallback}</span>
+                  )}
+                  <span>{skill}</span>
+                </span>
+              );
+            })}
           </div>
         </motion.div>
       ))}

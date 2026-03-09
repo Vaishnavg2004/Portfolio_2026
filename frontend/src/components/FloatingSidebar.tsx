@@ -10,9 +10,9 @@ const topIcons = [
   { id: "profile", icon: User, label: "Profile" },
   { id: "education", icon: GraduationCap, label: "Education" },
   { id: "experience", icon: Briefcase, label: "Experience" },
+  { id: "skills", icon: Award, label: "Skills" },
   { id: "projects", icon: Code, label: "Projects" },
   { id: "certificates", icon: ScrollText, label: "Certificates" },
-  { id: "skills", icon: Award, label: "Skills" },
   { id: "contact", icon: Mail, label: "Contact" },
 ];
 
@@ -23,14 +23,23 @@ const socialIcons = [
 ];
 
 const FloatingSidebar = ({ activeSection, onNavigate }: FloatingSidebarProps) => {
+  const activeIndex = Math.max(
+    0,
+    topIcons.findIndex((item) => item.id === activeSection),
+  );
+
   return (
     <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex">
       <div className="floating-sidebar">
+        <div
+          className="sidebar-active-indicator"
+          style={{ transform: `translateY(${activeIndex * 44}px)` }}
+        />
         {topIcons.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            className={`sidebar-icon-btn ${activeSection === item.id ? "active" : ""}`}
+            className={`sidebar-icon-btn ${activeSection === item.id ? "active" : "inactive"}`}
             title={item.label}
           >
             <item.icon size={18} />
