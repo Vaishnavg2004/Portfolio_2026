@@ -33,10 +33,14 @@ const HeroSection = () => {
               Embedded Systems | IoT | Full-Stack Developer
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="gradient-btn flex items-center gap-2">
+              <a
+                href="/resume_2026.pdf"
+                download="Vaishnav_Rahul_Gaikwad_Resume_2026.pdf"
+                className="gradient-btn flex items-center gap-2"
+              >
                 <Download size={18} />
                 Get My CV
-              </button>
+              </a>
               <a
                 href="#contact"
                 className="px-6 py-3 rounded-xl border border-glass-border text-foreground font-semibold hover:bg-secondary transition-all duration-300 flex items-center gap-2"
